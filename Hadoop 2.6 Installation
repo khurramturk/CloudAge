@@ -62,7 +62,7 @@ sudo su -c 'cat >> /usr/local/hadoop/etc/hadoop/core-site.xml <<EOL
 <configuration>
 	<property>
 		<name>fs.default.name</name>
-		<value>hdfs://localhost:9000</value>
+		<value>hdfs://localhost:8000</value>
 	</property>
 </configuration>
 EOL'
