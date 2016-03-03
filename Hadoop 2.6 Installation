@@ -24,15 +24,15 @@ net.ipv6.conf.lo.disable_ipv6 = 1
 EOL'
 
 #Download Hadoop
-sudo wget http://apache.mirrors.tds.net/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz
+wget http://apache.mirrors.tds.net/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz
 
 #Extract and Install Hadoop tar ball
-sudo tar -xzvf hadoop-2.6.0.tar.gz
+tar -xzvf hadoop-2.6.0.tar.gz
 sudo mv hadoop-2.6.0 /usr/local/hadoop 
-sudo chown hduser:hadoop -R /usr/local/hadoop 
-sudo mkdir -p /usr/local/hadoop_tmp/hdfs/namenode
-sudo mkdir -p /usr/local/hadoop_tmp/hdfs/datanode
-sudo chown hduser:hadoop -R /usr/local/hadoop_tmp/
+
+mkdir -p /usr/local/hadoop_tmp/hdfs/namenode
+mkdir -p /usr/local/hadoop_tmp/hdfs/datanode
+chown hduser:hadoop -R /usr/local/hadoop 
 
 #Update Linux configuration files
 cat >>$HOME/.bashrc <<EOL
@@ -52,13 +52,13 @@ export HADOOP_OPTS="-Djava.library.path=\$HADOOP_HOME/lib"
 EOL
 
 #Update hadoop-env.sh
-sudo su -c 'echo JAVA_HOME=/usr/lib/jvm/java-8-oracle >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh'
+sudo su -c 'echo export JAVA_HOME=/usr/lib/jvm/java-8-oracle >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh'
 sudo su -c 'echo export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/ >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh'
 sudo su -c 'echo export HADOOP_LOG_DIR=/var/log/hadoop/ >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh'
 
 #Update core-site.xml
 sudo sed -i '/<configuration>/,/<\/configuration>/d' /usr/local/hadoop/etc/hadoop/core-site.xml
-sudo su -c 'cat >>/usr/local/hadoop/etc/hadoop/core-site.xml <<EOL
+sudo su -c 'cat >> /usr/local/hadoop/etc/hadoop/core-site.xml <<EOL
 <configuration>
 	<property>
 		<name>fs.default.name</name>
@@ -112,7 +112,7 @@ sudo su -c 'cat >>/usr/local/hadoop/etc/hadoop/yarn-site.xml <<EOL
     </property>
     <property>
         <name>yarn.resourcemanager.webapp.address</name>
-        <value>0.0.0.0:8088</value>
+        <value>localhost:8088</value>
     </property>
     <property>
         <name>yarn.nodemanager.aux-services</name>
