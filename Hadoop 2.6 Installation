@@ -53,6 +53,8 @@ EOL
 
 #Update hadoop-env.sh
 sudo su -c 'echo JAVA_HOME=/usr/lib/jvm/java-8-oracle >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh'
+'echo export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/ >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh'
+`echo export HADOOP_LOG_DIR=/var/log/hadoop/ >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh'
 
 #Update core-site.xml
 sudo sed -i '/<configuration>/,/<\/configuration>/d' /usr/local/hadoop/etc/hadoop/core-site.xml
