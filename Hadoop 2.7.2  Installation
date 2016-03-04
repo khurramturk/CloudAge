@@ -25,17 +25,15 @@ EOL'
 
 
 #Download Hadoop
-wget http://apache.mirrors.tds.net/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz
-# OR
 wget http://apache.mirrors.tds.net/hadoop/common/stable/hadoop-2.7.2.tar.gz
 
 #Extract and Install Hadoop tar ball
 tar -xzvf hadoop-2.6.0.tar.gz
 sudo mv hadoop-2.6.0 /usr/local/hadoop 
+sudo chown hduser:hadoop -R /usr/local/hadoop
 
 sudo mkdir -p /usr/local/hadoop_tmp/hdfs/namenode
 sudo mkdir -p /usr/local/hadoop_tmp/hdfs/datanode
-sudo chown hduser:hadoop -R /usr/local/hadoop 
 sudo chown hduser:hadoop -R /usr/local/hadoop_tmp
 
 #Update Linux configuration files
@@ -50,7 +48,7 @@ export HADOOP_MAPRED_HOME=\$HADOOP_HOME
 export HADOOP_COMMON_HOME=\$HADOOP_HOME
 export HADOOP_HDFS_HOME=\$HADOOP_HOME
 export YARN_HOME=\$HADOOP_HOME
-export HADOOP_COMMON_LIB_NATIVE_DIR=\$HADOOP_HOME/lib/native
+export HADOOP_COMMON_LIB_NATIVE_DIR=\$HADOOP_HOME/lib/native/
 export HADOOP_OPTS="-Djava.library.path=\$HADOOP_HOME/lib"
 # -- HADOOP ENVIRONMENT VARIABLES END -- #
 EOL
@@ -146,4 +144,19 @@ hdfs namenode -format
 start-all.sh 
 or start-dfs.sh
 start-yarn.sh
+
 jps
+
+ps -aux | grep jvm
+
+hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar pi  5 10
+nano inputdata # write anything in it for processing.
+hadoop fs -put inputdata .
+hadoop fs -ls -R
+df -h inputdata
+hadoop fs -df -h inputdata
+hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar wordcount inputdata outputresults
+hadoop fs -ls
+hadoop fs -mkdir yourname
+hadoop fs -ls
+
