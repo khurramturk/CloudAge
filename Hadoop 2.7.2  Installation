@@ -28,8 +28,8 @@ EOL'
 wget http://apache.mirrors.tds.net/hadoop/common/stable/hadoop-2.7.2.tar.gz
 
 #Extract and Install Hadoop tar ball
-tar -xzvf hadoop-2.6.0.tar.gz
-sudo mv hadoop-2.6.0 /usr/local/hadoop 
+tar -xzvf hadoop-2.7.2.tar.gz
+sudo mv hadoop-2.7.2 /usr/local/hadoop
 sudo chown hduser:hadoop -R /usr/local/hadoop
 
 sudo mkdir -p /usr/local/hadoop_tmp/hdfs/namenode
@@ -52,6 +52,8 @@ export HADOOP_COMMON_LIB_NATIVE_DIR=\$HADOOP_HOME/lib/native/
 export HADOOP_OPTS="-Djava.library.path=\$HADOOP_HOME/lib"
 # -- HADOOP ENVIRONMENT VARIABLES END -- #
 EOL
+
+exec bash
 
 #Update hadoop-env.sh
 sudo su -c 'echo export JAVA_HOME=/usr/lib/jvm/java-8-oracle >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh'
@@ -92,39 +94,16 @@ EOL'
 #Update yarn-site.xml
 sudo sed -i '/<configuration>/,/<\/configuration>/d' /usr/local/hadoop/etc/hadoop/yarn-site.xml
 sudo su -c 'cat >>/usr/local/hadoop/etc/hadoop/yarn-site.xml <<EOL
+echo "write to yarn-site.xml"
 <configuration>
-    <property>
-        <name>yarn.resourcemanager.hostname</name>
-        <value>localhost</value>
-    </property>
-    <property>
-        <name>yarn.resourcemanager.scheduler.address</name>
-        <value>localhost:8030</value>
-    </property>
-    <property>
-        <name>yarn.resourcemanager.resource-tracker.address</name>
-        <value>localhost:8031</value>
-    </property>
-    <property>
-        <name>yarn.resourcemanager.address</name>
-        <value>localhost:8032</value>
-    </property>
-    <property>
-        <name>yarn.resourcemanager.admin.address</name>
-        <value>localhost:8033</value>
-    </property>
-    <property>
-        <name>yarn.resourcemanager.webapp.address</name>
-        <value>localhost:8088</value>
-    </property>
-    <property>
-        <name>yarn.nodemanager.aux-services</name>
-        <value>mapreduce_shuffle</value>
-    </property>
-    <property>
-        <name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
-        <value>org.apache.hadoop.mapred.ShuffleHandler</value>
-    </property>
+	<property>
+	      <name>yarn.nodemanager.aux-services</name>
+	      <value>mapreduce_shuffle</value>
+	</property>
+	<property>
+	      <name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+	      <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+	</property>
 </configuration>
 EOL'
 
